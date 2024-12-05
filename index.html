@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Members List</title>
+  <style>
+    .button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .delete-button, .edit-button {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .edit-button {
+      background-color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <h1>Members List</h1>
+  <a href="new.html" class="button">Add New Member</a>
+  <table id="members-table" border="1">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="members-body">
+      <!-- Members will be appended here by JavaScript -->
+    </tbody>
+  </table>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const membersBody = document.getElementById('members-body');
+
+      // Load members from local storage
+      let members = JSON.parse(localStorage.getItem('members')) || [];
+      members.forEach(member => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${member.username}</td> 
+          <td>${member.age}</td>
+          <td>${member.gender}</td>
+          <td>${member.homeaddress}</td>
+          <td>${member.phonenumber}</td>
+          <td>${member.email}</td>
+          <td>
+            <a class="edit-button" href="edit.html?id=${member.id}">Edit</a>
+            <button class="delete-button" data-id="${member.id}">Delete</button>
+          </td>
+        `; // choosing all of the aspects of the people around in a table with an edit and delete button
+        membersBody.appendChild(row);
+      });
+
+      // Add event listener for delete buttons
+      document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function() {
+          const memberId = this.getAttribute('data-id');
+          let members = JSON.parse(localStorage.getItem('members')) || [];
+          members = members.filter(member => member.id !== memberId);
+          localStorage.setItem('members', JSON.stringify(members));
+          location.reload(); // Reload the page to reflect changes
+        });
+      });
+    });
+  </script>
+</body>
+</html>

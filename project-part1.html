@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jangs Shopping Mall</title> 
+</head>
+<body>
+  <h2>HEYO & WELCOME</h2>
+  <h3>To become a Jangs Shopping Mall member, please input the following</h3>
+  <form id="add-member-form">
+    <p>
+      <label for="username">Input Name:</label>
+      <br />
+      <input id="username" name="username" type="text" required />
+    </p>
+    <p>
+      <label for="age">Input Age:</label>
+      <br />
+      <input id="age" name="age" type="number" required />
+    </p>
+    <p>
+      <label for="gender1">Male</label>
+      <input id="gender1" name="gender" type="radio" value="male" required />
+      <label for="gender2">Female</label>
+      <input id="gender2" name="gender" type="radio" value="female" required />
+      <label for="gender3">Other</label>
+      <input id="gender3" name="gender" type="radio" value="other" required />
+    </p>
+    <p>
+      <label for="address">Input Home Address:</label>
+      <br />
+      <input id="address" name="address" type="text" required />
+    </p>
+    <p>
+      <label for="phone">Input Phone Number:</label>
+      <br />
+      <input id="phone" name="phone" type="text" required />
+    </p>
+    <p>
+      <label for="email">Input Email Address:</label>
+      <br />
+      <input id="email" name="email" type="email" required />
+    </p>
+    <input type="submit" value="Send" />
+  </form>
+  <img src="https://pbs.twimg.com/profile_images/1697873279187648512/MKU0vy7m_400x400.jpg" alt="wakko" width="200" height="200" />
+
+  <script>
+    document.getElementById('add-member-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const newMember = {
+        id: Date.now().toString(), // Use a unique ID for each member
+        username: document.getElementById('username').value,
+        age: document.getElementById('age').value,
+        gender: document.querySelector('input[name="gender"]:checked').value,
+        address: document.getElementById('address').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value
+      };
+
+      // Save member to local storage
+      let members = JSON.parse(localStorage.getItem('members')) || [];
+      members.push(newMember);
+      localStorage.setItem('members', JSON.stringify(members));
+
+      // Redirect to index.html
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

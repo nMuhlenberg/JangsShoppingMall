@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Member</title>
+</head>
+<body>
+  <h1>Edit Member</h1>
+
+  <form id="edit-form" method="post">
+    <div>
+      <label for="username">Input Name:</label>
+      <input type="text" id="username" name="username" value="">
+    </div> 
+
+    <div>
+      <label for="age">Input Age:</label>
+      <input type="number" id="age" name="age" value="">
+    </div>
+
+    <div>
+      <label for="gender">Select Gender:</label>
+      <select id="gender" name="gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="homeaddress">Input Home Address:</label>
+      <input type="text" id="homeaddress" name="homeaddress" value="">
+    </div>
+
+    <div>
+      <label for="phonenumber">Input Phone Number:</label>
+      <input type="text" id="phonenumber" name="phonenumber" value="">
+    </div>
+
+    <div>
+      <label for="email">Input Email Address:</label>
+      <input type="email" id="email" name="email" value="">
+    </div>
+
+    <div>
+      <button type="submit">Update Member</button>
+    </div>
+  </form>
+
+  <a href="index.html" class="button">Back to Members List</a>
+
+  <script>
+    // Assuming the member's ID is passed via the URL query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const memberId = urlParams.get('id');
+    
+    if (memberId) {
+      const members = JSON.parse(localStorage.getItem('members')) || []; // if the id exists
+      const member = members.find(m => m.id === memberId); // finding the member with the ID
+      
+      if (member) {
+        document.getElementById('username').value = member.username;
+        document.getElementById('age').value = member.age;
+        document.getElementById('gender').value = member.gender;
+        document.getElementById('homeaddress').value = member.homeaddress;
+        document.getElementById('phonenumber').value = member.phonenumber;
+        document.getElementById('email').value = member.email;
+      } // reinstating the member based on anything to change
+    }
+
+    document.getElementById('edit-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // making editing compatible
+      
+      const updatedMember = {
+        id: memberId, 
+        username: document.getElementById('username').value, 
+        age: document.getElementById('age').value,
+        gender: document.getElementById('gender').value,
+        homeaddress: document.getElementById('homeaddress').value,
+        phonenumber: document.getElementById('phonenumber').value,
+        email: document.getElementById('email').value
+      }; // showing the updated member
+      
+      const members = JSON.parse(localStorage.getItem('members')) || [];
+      const memberIndex = members.findIndex(m => m.id === memberId);
+      
+      if (memberIndex !== -1) {
+        members[memberIndex] = updatedMember;
+        localStorage.setItem('members', JSON.stringify(members));
+      } // as long as the index is there
+
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
